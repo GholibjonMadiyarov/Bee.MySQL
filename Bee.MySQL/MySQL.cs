@@ -20,98 +20,98 @@ namespace Bee.MySQL
         /// <param name="tableName">Table name.</param>
         /// <param name="limit">Limit.</param>
         /// <returns> Select model </returns>
-        public static Select select(string connectionString, string tableName, int? limit = null)
-        {
-            try
-            {
-                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+        //public static Select select(string connectionString, string tableName, int? limit = null)
+        //{
+        //    try
+        //    {
+        //        List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
 
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
 
-                    using (MySqlCommand command = new MySqlCommand())
-                    {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = "select " + limit == null ? "" : " top @limit " + " * from @table";
+        //            using (MySqlCommand command = new MySqlCommand())
+        //            {
+        //                command.Connection = connection;
+        //                command.CommandType = CommandType.Text;
+        //                command.CommandText = "select " + limit == null ? "" : " top @limit " + " * from @table";
 
-                        command.Parameters.AddWithValue("@table", tableName);
-                        command.Parameters.AddWithValue("@limit", limit);
+        //                command.Parameters.AddWithValue("@table", tableName);
+        //                command.Parameters.AddWithValue("@limit", limit);
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Dictionary<string, object> row = new Dictionary<string, object>();
+        //                using (MySqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        Dictionary<string, object> row = new Dictionary<string, object>();
 
-                                for (int i = 0; i <= reader.FieldCount - 1; i++)
-                                {
-                                    row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
-                                }
+        //                        for (int i = 0; i <= reader.FieldCount - 1; i++)
+        //                        {
+        //                            row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
+        //                        }
 
-                                rows.Add(row);
-                            }
-                        }
-                    }
-                }
+        //                        rows.Add(row);
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                return new Select { execute = true, message = "Request completed successfully", data = rows };
-            }
-            catch (Exception e)
-            {
-                return new Select { execute = false, message = "Request failed. " + e.Message, data = new List<Dictionary<string, object>>() };
-            }
-        }
+        //        return new Select { execute = true, message = "Request completed successfully", data = rows };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new Select { execute = false, message = "Request failed. " + e.Message, data = new List<Dictionary<string, object>>() };
+        //    }
+        //}
 
-        /// <summary>
-        /// Used to retrieve all rows from a table.
-        /// </summary>
-        /// <param name="connectionString">Connection string.</param>
-        /// <param name="tableName">Table name.</param>
-        /// <returns> Select model </returns>
-        public static Select select(string connectionString, string tableName)
-        {
-            try
-            {
-                List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+        ///// <summary>
+        ///// Used to retrieve all rows from a table.
+        ///// </summary>
+        ///// <param name="connectionString">Connection string.</param>
+        ///// <param name="tableName">Table name.</param>
+        ///// <returns> Select model </returns>
+        //public static Select select(string connectionString, string tableName)
+        //{
+        //    try
+        //    {
+        //        List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
 
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
+        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        //        {
+        //            connection.Open();
 
-                    using (MySqlCommand command = new MySqlCommand())
-                    {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = "select * from @table";
+        //            using (MySqlCommand command = new MySqlCommand())
+        //            {
+        //                command.Connection = connection;
+        //                command.CommandType = CommandType.Text;
+        //                command.CommandText = "select * from @table";
 
-                        command.Parameters.AddWithValue("@table", tableName);
+        //                command.Parameters.AddWithValue("@table", tableName);
 
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                Dictionary<string, object> row = new Dictionary<string, object>();
+        //                using (MySqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        Dictionary<string, object> row = new Dictionary<string, object>();
 
-                                for (int i = 0; i <= reader.FieldCount - 1; i++)
-                                {
-                                    row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
-                                }
+        //                        for (int i = 0; i <= reader.FieldCount - 1; i++)
+        //                        {
+        //                            row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
+        //                        }
 
-                                rows.Add(row);
-                            }
-                        }
-                    }
-                }
+        //                        rows.Add(row);
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                return new Select { execute = true, message = "Request completed successfully", data = rows };
-            }
-            catch (Exception e)
-            {
-                return new Select { execute = false, message = "Request failed. " + e.Message, data = new List<Dictionary<string, object>>() };
-            }
-        }
+        //        return new Select { execute = true, message = "Request completed successfully", data = rows };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new Select { execute = false, message = "Request failed. " + e.Message, data = new List<Dictionary<string, object>>() };
+        //    }
+        //}
 
         /// <summary>
         /// Used to retrieve data from a database.
