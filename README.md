@@ -5,7 +5,7 @@ A very simple way to work with a MySQL database
 If you have any issues or feedback, please file an issue here in Github. We'd love to have you help by contributing code for new features, optimization to the existing codebase, ideas for future releases, or fixes!
 
 ## Dependencies
-	MySql.Data.MySqlClient
+	MySql.Data.MySqlClient 6.9.12
 
 ## Examples
 
