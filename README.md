@@ -9,7 +9,7 @@ If you have any issues or feedback, please file an issue here in Github. We'd lo
 
 ## Examples
 
-### Select with out parameters
+### Select without parameters
 ```csharp
 using Bee.MySQL;
 
@@ -41,7 +41,7 @@ static void Main(string[] args)
 }
 ```
 
-### Select row with out parameters
+### Select row out parameters
 ```csharp
 using Bee.MySQL;
 
