@@ -15,8 +15,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-    var result = MySQL.select(connectionString, "select id, name, lastname, age from users");
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+    	var result = MySQL.select("select id, name, lastname, age from users");
 	
 	foreach(var row in result.data)
 	{
@@ -31,8 +31,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.select(connectionString, "select id, name, lastname, age from users where id = @user_id", new Dictionary<string, object>{{"@user_id", 1}});
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.select("select id, name, lastname, age from users where id = @user_id", new Dictionary<string, object>{{"@user_id", 1}});
 	
 	foreach(var row in result.data)
 	{
@@ -47,8 +47,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-    var result = MySQL.selectRow(connectionString, "select id, name, lastname, age from users");
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+    	var result = MySQL.selectRow("select id, name, lastname, age from users");
 	
 	Console.WriteLine("id:" + result.data["id"] + ", name:" + result.data["name"] + ", lastname:" + result.data["lastname"] + ", age:" + result.data["age"]);
 }
@@ -60,8 +60,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.selectRow(connectionString, "select id, name, lastname, age from users where id = @user_id", new Dictionary<string, object>{{"@user_id", 1}});
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.selectRow("select id, name, lastname, age from users where id = @user_id", new Dictionary<string, object>{{"@user_id", 1}});
 	
 	Console.WriteLine("id:" + result.data["id"] + ", name:" + result.data["name"] + ", lastname:" + result.data["lastname"] + ", age:" + result.data["age"]);
 }
@@ -73,8 +73,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.selectValue(connectionString, "select id from users where id = @user_id", new Dictionary<string, object>{{"@user_id", 1}});
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.selectValue("select id from users where id = @user_id", new Dictionary<string, object>{{"@user_id", 1}});
 	
 	Console.WriteLine("id:" + result.value);
 }
@@ -86,8 +86,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.select(connectionString, "select id, name, lastname, age from users");
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.select("select id, name, lastname, age from users");
 	
 	if(result.execute)
 	{
@@ -109,8 +109,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.query(connectionString, "insert into users(name, lastname, age) values('Gholibjon', 'Madiyarov', 29)");
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.query("insert into users(name, lastname, age) values('Gholibjon', 'Madiyarov', 29)");
 	
 	if(result.execute)
 	{
@@ -129,8 +129,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.query(connectionString, "insert into users(name, lastname, age) values(@name, @lastname, @age)", new Dictionary<string, object>{{"@name", "Gholibjon"}, {"@lastname", "Madiyarov"}, {"@age", 29}});
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.query("insert into users(name, lastname, age) values(@name, @lastname, @age)", new Dictionary<string, object>{{"@name", "Gholibjon"}, {"@lastname", "Madiyarov"}, {"@age", 29}});
 	
 	if(result.execute)
 	{
@@ -149,15 +149,15 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+
 	var queries = new List<string>(){
 		"insert into users(name, lastname, age) values('Gholibjon', 'Madiyarov', 29)",
 		"insert into cities(name, description) values('Hujand', 'This is one of the most civilized and hospitable cities in Central Asia.')",
 		"insert into cars(name, description) values('Mercedes Benz', 'One of the most perfect and friendly cars in the world.')"
 	};
 	
-	var result = MySQL.query(connectionString, queries);
+	var result = MySQL.query(queries);
 	
 	if(result.execute)
 	{
@@ -176,7 +176,7 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
 	
 	var queries = new List<string>(){
 		"insert into users(name, lastname, age) values(@name, @lastname, @age)",
@@ -190,7 +190,7 @@ static void Main(string[] args)
 		new Dictionary<string, object>{{"@name", "Mercedes Benz"}, {"@description", "One of the most perfect and friendly cars in the world."}},
 	};
 	
-	var result = MySQL.query(connectionString, queries, parameters);
+	var result = MySQL.query(queries, parameters);
 	
 	if(result.execute)
 	{
@@ -209,7 +209,7 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
 	
 	var queries = new List<string>(){
 		"insert into users(name, lastname, age) values(@name, @lastname, @age)",
@@ -223,7 +223,7 @@ static void Main(string[] args)
 		new Dictionary<string, object>{{"@name", "Mercedes Benz"}, {"@description", "One of the most perfect and friendly cars in the world."}},
 	};
 	
-	var result = MySQL.query(connectionString, queries, parameters);
+	var result = MySQL.query(queries, parameters);
 	
 	if(result.execute)
 	{
@@ -244,8 +244,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.executeSelect(connectionString, "ProcedureName");
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.executeSelect("ProcedureName");
 	
 	if(result.execute)
 	{
@@ -267,8 +267,8 @@ using Bee.MySQL;
 
 static void Main(string[] args)
 {
-	var connectionString = "server=127.0.0.1; port=3306; username=UserName; password=Password; database=DatabaseName; character set=utf8; pooling=true; Connect Timeout=15";
-	var result = MySQL.executeQuery(connectionString, "ProcedureName");
+	MySQL.connectionString = "server=127.0.0.1;port=3306;username=UserName;password=Password;database=DatabaseName;character set=utf8; pooling=true;Connect Timeout=15";
+	var result = MySQL.executeQuery("ProcedureName");
 	
 	if(result.execute)
 	{
