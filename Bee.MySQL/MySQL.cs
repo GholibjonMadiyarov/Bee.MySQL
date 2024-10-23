@@ -1,9 +1,11 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Bee.MySQL.Models;
 using MySql.Data.MySqlClient;
 
@@ -11,116 +13,15 @@ namespace Bee.MySQL
 {
     public class MySQL
     {
-        public static string connectionString = null;
-
-        /// <summary>
-        /// Used to retrieve all rows from a table.
-        /// </summary>
-        /// <param name="connectionString">Connection string.</param>
-        /// <param name="tableName">Table name.</param>
-        /// <param name="limit">Limit.</param>
-        /// <returns> Select model </returns>
-        //public static Select select(string connectionString, string tableName, int? limit = null)
-        //{
-        //    try
-        //    {
-        //        List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
-
-        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        //        {
-        //            connection.Open();
-
-        //            using (MySqlCommand command = new MySqlCommand())
-        //            {
-        //                command.Connection = connection;
-        //                command.CommandType = CommandType.Text;
-        //                command.CommandText = "select " + limit == null ? "" : " top @limit " + " * from @table";
-
-        //                command.Parameters.AddWithValue("@table", tableName);
-        //                command.Parameters.AddWithValue("@limit", limit);
-
-        //                using (MySqlDataReader reader = command.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        Dictionary<string, object> row = new Dictionary<string, object>();
-
-        //                        for (int i = 0; i <= reader.FieldCount - 1; i++)
-        //                        {
-        //                            row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
-        //                        }
-
-        //                        rows.Add(row);
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //        return new Select { execute = true, message = "Request completed successfully", data = rows };
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new Select { execute = false, message = "Request failed. " + e.Message, data = new List<Dictionary<string, object>>() };
-        //    }
-        //}
-
-        ///// <summary>
-        ///// Used to retrieve all rows from a table.
-        ///// </summary>
-        ///// <param name="connectionString">Connection string.</param>
-        ///// <param name="tableName">Table name.</param>
-        ///// <returns> Select model </returns>
-        //public static Select select(string connectionString, string tableName)
-        //{
-        //    try
-        //    {
-        //        List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
-
-        //        using (MySqlConnection connection = new MySqlConnection(connectionString))
-        //        {
-        //            connection.Open();
-
-        //            using (MySqlCommand command = new MySqlCommand())
-        //            {
-        //                command.Connection = connection;
-        //                command.CommandType = CommandType.Text;
-        //                command.CommandText = "select * from @table";
-
-        //                command.Parameters.AddWithValue("@table", tableName);
-
-        //                using (MySqlDataReader reader = command.ExecuteReader())
-        //                {
-        //                    while (reader.Read())
-        //                    {
-        //                        Dictionary<string, object> row = new Dictionary<string, object>();
-
-        //                        for (int i = 0; i <= reader.FieldCount - 1; i++)
-        //                        {
-        //                            row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
-        //                        }
-
-        //                        rows.Add(row);
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //        return new Select { execute = true, message = "Request completed successfully", data = rows };
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new Select { execute = false, message = "Request failed. " + e.Message, data = new List<Dictionary<string, object>>() };
-        //    }
-        //}
+        public static string connectionString = "server=127.0.0.1;port=3306;username=root;password=;database=Test;Character set = utf8;Pooling=true";
 
         /// <summary>
         /// Used to retrieve data from a database.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns> Select model</returns>
-        public static Select select(string connectionString, string queryText, Dictionary<string, object> parameters = null)
+        public static Select select(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -175,11 +76,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Used to retrieve data from a database.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns> SelectRow model</returns>
-        public static SelectRow selectRow(string connectionString, string queryText, Dictionary<string, object> parameters = null)
+        public static SelectRow selectRow(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -229,11 +129,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Used to retrieve data from a database.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns> SelectValue model. The first column of the first row is returned.</returns>
-        public static SelectValue selectValue(string connectionString, string queryText, Dictionary<string, object> parameters = null)
+        public static SelectValue selectValue(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -279,11 +178,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Requests insert for multiple queres.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryTexts">The SQL querys is represented as a list.</param>
         /// <param name="parameters">Parameters are given accordingly for each request.</param>
         /// <returns>Insert model</returns>
-        public static Insert insert(string connectionString, List<string> queryTexts, List<Dictionary<string, object>> parameters = null)
+        public static Insert insert(List<string> queryTexts, List<Dictionary<string, object>> parameters = null)
         {
             try
             {
@@ -352,11 +250,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Requests insert
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">The SQL query is represented as a text.</param>
         /// <param name="parameters">Parameters</param>
         /// <returns>Insert model</returns>
-        public static Insert insert(string connectionString, string queryText, Dictionary<string, object> parameters = null)
+        public static Insert insert(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -416,11 +313,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Executes update requests.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">The SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns>Update model</returns>
-        public static Update update(string connectionString, string queryText, Dictionary<string, object> parameters = null)
+        public static Update update(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -458,11 +354,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Executes delete requests.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">The SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns>Delete model</returns>
-        public static Delete delete(string connectionString, string queryText, Dictionary<string, object> parameters = null)
+        public static Delete delete(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -500,11 +395,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Executes any query with out select requests.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">The SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns>Query model</returns>
-        public static Query query(string connectionString, string queryText, Dictionary<string, object> parameters = null, Action<bool, string, bool, object> callback = null)
+        public static Query query(string queryText, Dictionary<string, object> parameters = null, Action<bool, string, bool, object> callback = null)
         {
             try
             {
@@ -556,11 +450,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Executes any query with out select requests.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="queryText">The SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns>Query model</returns>
-        public static Query query(string connectionString, List<string> queryTexts, List<Dictionary<string, object>> parameters = null)
+        public static Query query(List<string> queryTexts, List<Dictionary<string, object>> parameters = null)
         {
             try
             {
@@ -629,11 +522,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Executes stored procedures, for sellect.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="procedureName">Procedure name.</param>
         /// <param name="procedureParameters">Parameters.</param>
         /// <returns>ExecuteSelect model</returns>
-        public static ExecuteSelect executeSelect(string connectionString, string procedureName, Dictionary<string, object> procedureParameters = null)
+        public static ExecuteSelect executeSelect(string procedureName, Dictionary<string, object> procedureParameters = null)
         {
             try
             {
@@ -688,11 +580,10 @@ namespace Bee.MySQL
         /// <summary>
         /// Executes stored procedures, with out select requests.
         /// </summary>
-        /// <param name="connectionString">Connection string.</param>
         /// <param name="procedureName">Procedure name.</param>
         /// <param name="procedureParameters">Procedure parameters.</param>
         /// <returns>ExecuteQuery model</returns>
-        public static ExecuteQuery executeQuery(string connectionString, string procedureName, Dictionary<string, object> procedureParameters = null)
+        public static ExecuteQuery executeQuery(string procedureName, Dictionary<string, object> procedureParameters = null)
         {
             try
             {
