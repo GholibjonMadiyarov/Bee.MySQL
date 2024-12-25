@@ -56,7 +56,14 @@ namespace Bee.MySQL
 
                                 for (int i = 0; i <= reader.FieldCount - 1; i++)
                                 {
-                                    row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
+                                    if (reader.IsDBNull(i))
+                                    {
+                                        row[reader.GetName(i)] = null;
+                                    }
+                                    else
+                                    {
+                                        row[reader.GetName(i)] = reader.GetValue(i);
+                                    }
                                 }
 
                                 rows.Add(row);
@@ -111,7 +118,14 @@ namespace Bee.MySQL
                             {
                                 for (int i = 0; i <= reader.FieldCount - 1; i++)
                                 {
-                                    row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader[reader.GetName(i)];
+                                    if (reader.IsDBNull(i))
+                                    {
+                                        row[reader.GetName(i)] = null;
+                                    }
+                                    else
+                                    {
+                                        row[reader.GetName(i)] = reader.GetValue(i);
+                                    }
                                 }
                             }
                         }
@@ -161,17 +175,17 @@ namespace Bee.MySQL
                         {
                             if (reader.Read())
                             {
-                                return new SelectValue { execute = true, message = "Request completed successfully", value = reader.IsDBNull(0) ? null : reader[0] };
+                                return new SelectValue { execute = true, message = "Request completed successfully", value = reader.IsDBNull(0) ? null : reader.GetValue(0), read = true };
                             }
                         }
                     }
                 }
 
-                return new SelectValue { execute = false, message = "The request was successful, but no result was returned", value = null };
+                return new SelectValue { execute = true, message = "The request was successful, but no result was returned", value = null, read = false };
             }
             catch (Exception e)
             {
-                return new SelectValue { execute = false, message = "Request failed. " + e.Message, value = null };
+                return new SelectValue { execute = false, message = "Request failed. " + e.Message, value = null, read = false, exception = true };
             }
         }
 
@@ -284,11 +298,11 @@ namespace Bee.MySQL
 
                                 command.Transaction = transaction;
 
-                                int affectedRowCount = command.ExecuteNonQuery();
+                                command.ExecuteNonQuery();
 
                                 transaction.Commit();
 
-                                return new Insert { execute = true, message = "Request completed successfully", affectedRowCount = affectedRowCount };
+                                return new Insert { execute = true, message = "Request completed successfully", lastInsertedId = command.LastInsertedId };
                             }
                         }
                         catch (MySqlException e)
@@ -398,7 +412,7 @@ namespace Bee.MySQL
         /// <param name="queryText">The SQL query.</param>
         /// <param name="parameters">Parameters.</param>
         /// <returns>Query model</returns>
-        public static Query query(string queryText, Dictionary<string, object> parameters = null, Action<bool, string, bool, object> callback = null)
+        public static Query query(string queryText, Dictionary<string, object> parameters = null)
         {
             try
             {
@@ -424,25 +438,16 @@ namespace Bee.MySQL
 
                         int r = command.ExecuteNonQuery();
 
-                        if (callback != null)
-                            callback(true, "Request completed successfully!", false, r);
-
                         return new Query { execute = true, message = "Request completed successfully!", data = r };
                     }
                 }
             }
             catch (MySqlException e)
             {
-                if (callback != null)
-                    callback(false, "Request failed. " + e.Message, (e.Number == 1062) ? true : false, null);
-
                 return new Query { execute = false, message = "Request failed. " + e.Message, duplicate = (e.Number == 1062) ? true : false };
             }
             catch (Exception e)
             {
-                if (callback != null)
-                    callback(false, "Request failed. " + e.Message, false, null);
-
                 return new Query { execute = false, message = "Request failed. " + e.Message };
             }
         }
