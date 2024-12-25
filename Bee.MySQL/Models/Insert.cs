@@ -6,15 +6,19 @@ namespace Bee.MySQL.Models
     {
         public bool execute { get; set; }
         public string message { get; set; }
+        public object lastInsertedId { get; set; }
         public bool duplicate { get; set; }
-        public int affectedRowCount { get; set; }
+        public bool exception { get; set; }
+        public string exceptionType { get; set; }
 
-        public Insert() 
+        public Insert()
         {
             execute = false;
             message = null;
+            lastInsertedId = null;
             duplicate = false;
-            affectedRowCount = 0;
+            exception = false;
+            exceptionType = null;
         }
     }
 }
